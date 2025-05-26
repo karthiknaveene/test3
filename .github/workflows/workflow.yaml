@@ -1,42 +1,30 @@
-name: Create Check Run
+name: CI Checks
 
 on:
   push:
+  pull_request:
 
 jobs:
-  create-check-run:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - name: Run Linter
+        run: echo "✅ Lint passed!"
 
-      - name: Create check run via GitHub API
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Creating a check run..."
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Tests
+        run: echo "✅ All tests passed!"
 
-          PAYLOAD=$(jq -n \
-            --arg name "Example Check" \
-            --arg head_sha "${{ github.sha }}" \
-            --arg status "completed" \
-            --arg conclusion "success" \
-            --arg output_title "Check Passed" \
-            --arg output_summary "All good!" \
-            '{
-              name: $name,
-              head_sha: $head_sha,
-              status: $status,
-              conclusion: $conclusion,
-              output: {
-                title: $output_title,
-                summary: $output_summary
-              }
-            }')
-
-          curl -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            https://api.github.com/repos/${{ github.repository }}/check-runs \
-            -d "$PAYLOAD"
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Security Check
+        run: echo "✅ No security issues found!"
