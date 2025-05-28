@@ -1,0 +1,18 @@
+name: Check GitHub App Permissions
+
+on:
+  push:
+    branches:
+      - proj
+
+jobs:
+  check_permissions:
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: First interaction
+          uses: actions/first-interaction@v1.3.0
+          with:
+            # Token for the repository. Can be passed in using {{ secrets.GITHUB_TOKEN }}
+            repo-token: "{{ secrets.GITHUB_TOKEN }}"
+          
