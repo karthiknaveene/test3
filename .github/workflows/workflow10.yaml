@@ -3,7 +3,7 @@ name: Check GitHub App Permissions
 on:
   push:
     branches:
-      - main
+      - proj
 
 jobs:
   check_permissions:
