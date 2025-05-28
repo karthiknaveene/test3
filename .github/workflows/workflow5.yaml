@@ -1,0 +1,16 @@
+name: Link Checker
+
+on:
+  push:
+    paths:
+      - '**.md'
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Markdown links
+        uses: lycheeverse/lychee-action@v1
+        with:
+          args: --verbose '**/*.md'
