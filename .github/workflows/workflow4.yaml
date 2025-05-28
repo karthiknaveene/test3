@@ -1,0 +1,12 @@
+name: Daily Cleanup
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run cleanup script
+        run: python scripts/cleanup.py
